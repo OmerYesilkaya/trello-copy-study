@@ -13,6 +13,7 @@ export default function PlaceholderUserLogo() {
 			fontSize="14px"
 			borderRadius="60px"
 			fontWeight="semibold"
+			title="Omer Faruk"
 		>
 			OF
 		</Center>
