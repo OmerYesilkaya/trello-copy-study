@@ -1,16 +1,20 @@
 import { Board } from "models/Board";
 import create from "zustand";
 import { persist } from "zustand/middleware";
+import { generateId } from "utils/generateId";
+import { List } from "models/List";
 
 type BoardStoreProps = {
 	activeBoardId: string | null;
 	boards: Board[];
 	setActiveBoardId: (id: string | null) => void;
-	getBoardData: (id: string) => Board | null;
+	getActiveBoardData: () => Board | null;
 	createNewBoard: (id: string, name: string, themeColor: string) => void;
 	removeBoard: (id: string) => void;
 	getCurrentTheme: () => string;
 	toggleFavoriteBoard: (id: string) => void;
+	addListToBoard: (name: string) => void;
+	updateListName: (listId: string, name: string) => void;
 };
 
 export const useBoardStore = create<BoardStoreProps>(
@@ -19,9 +23,10 @@ export const useBoardStore = create<BoardStoreProps>(
 			activeBoardId: null,
 			boards: [],
 			setActiveBoardId: (id) => set({ activeBoardId: id }),
-			getBoardData: (id) => {
+			getActiveBoardData: () => {
 				const boards = get().boards;
-				const targetBoard = boards.find((x) => x.id === id) ?? null;
+				const activeBoardId = get().activeBoardId;
+				const targetBoard = boards.find((x) => x.id === activeBoardId) ?? null;
 				// TODO(omer): handle error if board not found with given id
 				return targetBoard;
 			},
@@ -45,9 +50,9 @@ export const useBoardStore = create<BoardStoreProps>(
 			},
 			getCurrentTheme: () => {
 				const activeBoardId = get().activeBoardId;
-				const getBoardData = get().getBoardData;
+				const getActiveBoardData = get().getActiveBoardData;
 				if (!activeBoardId) return "blue";
-				const data = getBoardData(activeBoardId);
+				const data = getActiveBoardData();
 				if (data) {
 					return data.themeColor;
 				}
@@ -65,6 +70,21 @@ export const useBoardStore = create<BoardStoreProps>(
 				set({ boards: newBoards });
 				// TODO(omer): maybe show toast informing the user that this board is now favorited
 			},
+			addListToBoard: (name) => {
+				let list = {} as List;
+				const boardData = get().getActiveBoardData();
+				const boards = get().boards;
+				if (!boardData) return;
+				list.id = generateId();
+				list.cards = [];
+				list.name = name;
+				list.position = boardData.lists.length;
+				boardData.lists.push(list);
+
+				set({ boards: boards });
+				// Note: Hack!
+			},
+			updateListName: (listId, name) => {},
 		}),
 		{ name: "board-storage" }
 	)

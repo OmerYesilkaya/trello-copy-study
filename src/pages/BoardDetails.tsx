@@ -12,12 +12,12 @@ type BoardParams = {
 export default function BoardDetails() {
 	const { id } = useParams<BoardParams>();
 	const { getBoardData, setActiveBoardId, getCurrentTheme } = useBoardStore((state) => ({
-		getBoardData: state.getBoardData,
+		getBoardData: state.getActiveBoardData,
 		setActiveBoardId: state.setActiveBoardId,
 		getCurrentTheme: state.getCurrentTheme,
 	}));
 
-	const boardData = getBoardData(id);
+	const boardData = getBoardData();
 
 	useEffect(() => {
 		setActiveBoardId(id);
@@ -28,7 +28,7 @@ export default function BoardDetails() {
 	return (
 		<Flex direction="column" bg={`${getCurrentTheme()}.400`} w="100%" h="100%">
 			<BoardNavbar data={boardData} />
-			<Lists data={boardData} />
+			<Lists board={boardData} />
 		</Flex>
 	);
 }
