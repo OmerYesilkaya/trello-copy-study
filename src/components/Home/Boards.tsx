@@ -10,6 +10,8 @@ export default function Boards() {
 	const { isOpen, onOpen, onClose } = useDisclosure();
 	const { boards } = useBoardStore((state) => ({ boards: state.boards }));
 
+	console.log("boards", boards);
+
 	return (
 		<Flex w="100%" direction="column" mx="1em">
 			<Flex
