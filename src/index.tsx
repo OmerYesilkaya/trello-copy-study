@@ -8,7 +8,7 @@ import { colors } from "constants/colors";
 const styles = {
 	global: {
 		body: {
-			fontFamily: "Kanit, sans-serif;",
+			fontFamily: "Poppins, sans-serif;",
 			bg: colors.primaryWhite,
 		},
 	},
