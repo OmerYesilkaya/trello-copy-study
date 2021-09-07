@@ -4,19 +4,27 @@ import { colors } from "constants/colors";
 import { BsFillGrid3X3GapFill } from "react-icons/bs";
 import { FaBell, FaHome, FaSearch, FaTrello } from "react-icons/fa";
 import { FiInfo } from "react-icons/fi";
-import NavbarButton from "./NavbarButton";
 import trelloLogo from "assets/trello_logo.gif";
-import PlaceholderUserLogo from "components/PlaceholderUserLogo";
+
 import { MotionImage } from "motion/chakra";
+import NavbarButton from "./NavbarButton";
+import { useHistory } from "react-router";
+import { useBoardStore } from "store/useBoardStore";
+import UserLogo from "components/common/UserLogo";
+import { users } from "constants/users";
 
 export default function Navbar() {
+	const history = useHistory();
+	const { getCurrentTheme } = useBoardStore((state) => ({ getCurrentTheme: state.getCurrentTheme }));
+	console.log("current theme", getCurrentTheme());
+
 	return (
-		<Flex w="100%" bg={colors.primaryBlueDark} p="5px" align="center" position="relative" justify="space-between">
+		<Flex w="100%" bg={`${getCurrentTheme()}.700`} p="5px" align="center" position="relative" justify="space-between">
 			<Flex>
 				<NavbarButton>
 					<BsFillGrid3X3GapFill />
 				</NavbarButton>
-				<NavbarButton>
+				<NavbarButton onClick={() => history.push("/")}>
 					<FaHome />
 				</NavbarButton>
 				<NavbarButton>
@@ -48,7 +56,7 @@ export default function Navbar() {
 				<NavbarButton>
 					<FaBell />
 				</NavbarButton>
-				<PlaceholderUserLogo />
+				<UserLogo name={users[0].name} />
 			</Flex>
 		</Flex>
 	);
