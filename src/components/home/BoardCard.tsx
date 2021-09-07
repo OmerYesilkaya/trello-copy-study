@@ -1,7 +1,9 @@
 import { Text } from "@chakra-ui/layout";
 import { Board } from "models/Board";
 import { MotionCenter, MotionFlex } from "motion/chakra";
+import { useState } from "react";
 import { RiCloseLine } from "react-icons/ri";
+import { TiStar, TiStarOutline } from "react-icons/ti";
 import { useHistory } from "react-router";
 import { useBoardStore } from "store/useBoardStore";
 
@@ -10,6 +12,11 @@ type BoardCardProps = {
 };
 type DeleteButtonProps = {
 	id: string;
+};
+
+const variants = {
+	active: { opacity: 1 },
+	disabled: { opacity: 0 },
 };
 
 function DeleteButton({ id }: DeleteButtonProps) {
@@ -37,6 +44,8 @@ function DeleteButton({ id }: DeleteButtonProps) {
 
 export default function BoardCard({ board }: BoardCardProps) {
 	const history = useHistory();
+	const [hover, setHover] = useState<boolean>(false);
+	const { toggleFavoriteBoard } = useBoardStore((state) => ({ toggleFavoriteBoard: state.toggleFavoriteBoard }));
 
 	return (
 		<MotionFlex
@@ -54,9 +63,23 @@ export default function BoardCard({ board }: BoardCardProps) {
 				history.push(`/board/${board.id}`);
 			}}
 			position="relative"
+			onPointerOver={() => setHover(true)}
+			onPointerOut={() => setHover(false)}
 		>
 			<Text fontSize="md">{board.name}</Text>
-			<MotionCenter>{board.isFavorited}</MotionCenter>
+			<MotionCenter
+				onClick={(e: MouseEvent) => {
+					e.stopPropagation();
+					toggleFavoriteBoard(board.id);
+				}}
+				variants={variants}
+				animate={hover ? "active" : "disabled"}
+				position="absolute"
+				bottom="5px"
+				right="5px"
+			>
+				{board.isFavorited ? <TiStar size="1.42em" /> : <TiStarOutline size="1.42em" />}
+			</MotionCenter>
 			<DeleteButton id={board.id} />
 		</MotionFlex>
 	);
