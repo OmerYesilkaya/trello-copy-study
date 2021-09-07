@@ -4,6 +4,7 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { ChakraProvider, extendTheme, ThemeConfig } from "@chakra-ui/react";
 import { colors } from "constants/colors";
+import "./style.css";
 
 const styles = {
 	global: {
