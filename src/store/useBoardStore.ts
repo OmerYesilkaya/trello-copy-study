@@ -3,6 +3,9 @@ import create from "zustand";
 import { persist } from "zustand/middleware";
 import { generateId } from "utils/generateId";
 import { List } from "models/List";
+import { Card } from "models/Card";
+import { Comment } from "models/Comment";
+import { users } from "constants/users";
 
 type BoardStoreProps = {
 	activeBoardId: string | null;
@@ -15,6 +18,10 @@ type BoardStoreProps = {
 	toggleFavoriteBoard: (id: string) => void;
 	addListToBoard: (name: string) => void;
 	updateListName: (listId: string, name: string) => void;
+	addCardToList: (listId: string, text: string) => void;
+	getListFromId: (listId: string) => List | null;
+	addCommentToCard: (cardId: string, listId: string, text: string) => void;
+	addDescToCard: (cardId: string, listId: string, text: string) => void;
 };
 
 export const useBoardStore = create<BoardStoreProps>(
@@ -27,7 +34,6 @@ export const useBoardStore = create<BoardStoreProps>(
 				const boards = get().boards;
 				const activeBoardId = get().activeBoardId;
 				const targetBoard = boards.find((x) => x.id === activeBoardId) ?? null;
-				// TODO(omer): handle error if board not found with given id
 				return targetBoard;
 			},
 			createNewBoard: (id, name, themeColor) => {
@@ -68,7 +74,6 @@ export const useBoardStore = create<BoardStoreProps>(
 					return x;
 				});
 				set({ boards: newBoards });
-				// TODO(omer): maybe show toast informing the user that this board is now favorited
 			},
 			addListToBoard: (name) => {
 				let list = {} as List;
@@ -82,9 +87,69 @@ export const useBoardStore = create<BoardStoreProps>(
 				boardData.lists.push(list);
 
 				set({ boards: boards });
-				// Note: Hack!
 			},
-			updateListName: (listId, name) => {},
+			updateListName: (listId, name) => {
+				const currentBoard = get().getActiveBoardData();
+				const boards = get().boards;
+				const targetList = currentBoard?.lists.find((x) => x.id === listId) ?? null;
+				if (!targetList) return;
+				targetList.name = name;
+				set({ boards: boards });
+			},
+			addCardToList: (listId, text) => {
+				const boardData = get().getActiveBoardData();
+				const boards = get().boards;
+				const card = {} as Card;
+				card.id = generateId();
+				card.parentListId = listId;
+				card.name = text;
+				// default values for empty card
+				card.assignees = [];
+				card.comments = [];
+				card.description = "";
+				card.isFollowed = false;
+				card.thumbnail = "";
+
+				const targetList = boardData?.lists.find((x) => x.id === listId) ?? ({} as List);
+				targetList.cards.push(card);
+
+				set({ boards: boards });
+			},
+			getListFromId: (listId) => {
+				const boardData = get().getActiveBoardData();
+
+				const list = boardData?.lists.find((x) => x.id === listId) ?? null;
+				return list;
+			},
+			addCommentToCard: (cardId, listId, text) => {
+				const currentList = get().getListFromId(listId);
+				const boards = get().boards;
+
+				const targetCard = currentList?.cards.find((x) => x.id === cardId);
+				if (!targetCard) return;
+				const comment = {} as Comment;
+				comment.createDate = new Date();
+				comment.replies = [];
+
+				comment.text = text;
+				comment.user = users[0];
+				comment.id = generateId();
+				targetCard.comments.push(comment);
+
+				set({ boards: boards });
+			},
+			addDescToCard: (cardId, listId, text) => {
+				const currentList = get().getListFromId(listId);
+				const boards = get().boards;
+
+				const targetCard = currentList?.cards.find((x) => x.id === cardId);
+				if (!targetCard) return;
+				console.log("TargetCard", targetCard);
+				console.log("tyext", text);
+				targetCard.description = text;
+
+				set({ boards: boards });
+			},
 		}),
 		{ name: "board-storage" }
 	)
