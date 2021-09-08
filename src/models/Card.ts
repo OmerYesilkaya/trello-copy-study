@@ -1,3 +1,4 @@
+import { Comment } from "./Comment";
 import { User } from "./User";
 
 export type Card = {
@@ -8,4 +9,5 @@ export type Card = {
 	comments: Comment[];
 	isFollowed: boolean;
 	assignees: User[];
+	parentListId: string;
 };
