@@ -14,10 +14,10 @@ export default function UserLogo({ name }: Props) {
 			p="16px"
 			bg="gray.300"
 			color="gray.900"
-			fontSize="14px"
+			fontSize="15px"
 			borderRadius="60px"
 			fontWeight="semibold"
-			title="Omer Faruk"
+			title={name}
 		>
 			{name.split(" ")[0][0].toUpperCase() + name.split(" ")[1][0].toUpperCase()}
 		</Center>
