@@ -19,6 +19,7 @@ export default function CreateListElement({ targetRef, isEditActive, setIsEditAc
 		addListToBoard: state.addListToBoard,
 	}));
 	function handleAddList(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
+		if (!listName) return;
 		e.stopPropagation();
 		addListToBoard(listName);
 		setListName("");
@@ -42,6 +43,7 @@ export default function CreateListElement({ targetRef, isEditActive, setIsEditAc
 			{isEditActive ? (
 				<Flex direction="column" w="100%">
 					<Input
+						autoFocus
 						mt="2px"
 						w="100%"
 						size="sm"
