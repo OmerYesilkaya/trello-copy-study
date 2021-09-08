@@ -16,7 +16,6 @@ import { users } from "constants/users";
 export default function Navbar() {
 	const history = useHistory();
 	const { getCurrentTheme } = useBoardStore((state) => ({ getCurrentTheme: state.getCurrentTheme }));
-	console.log("current theme", getCurrentTheme());
 
 	return (
 		<Flex w="100%" bg={`${getCurrentTheme()}.700`} p="5px" align="center" position="relative" justify="space-between">
@@ -41,7 +40,7 @@ export default function Navbar() {
 				</InputGroup>
 			</Flex>
 			{/* 40 is about the same with half of the trello logo width, it is hardcoded, maybe get image width with ref in the future */}
-			<Box cursor="pointer" position="absolute" left={window.innerWidth / 2 - 40}>
+			<Box cursor="pointer" position="absolute" left={window.innerWidth / 2 - 40} onClick={() => history.push("/")}>
 				<MotionImage opacity={0.6} whileHover={{ opacity: 1 }} h="15px" src={trelloLogo} />
 			</Box>
 			<Flex align="center">
