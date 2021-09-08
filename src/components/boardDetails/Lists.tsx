@@ -1,8 +1,8 @@
 import { Flex } from "@chakra-ui/layout";
+import CreateListElement from "components/list/CreateListElement";
 import { Board } from "models/Board";
 import { useEffect, useRef, useState } from "react";
-import CreateListElement from "./CreateListElement";
-import ListElement from "./ListElement";
+import ListElement from "../list/ListElement";
 
 type ListsProps = {
 	board: Board;
