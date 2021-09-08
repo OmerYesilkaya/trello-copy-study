@@ -86,10 +86,10 @@ export default function CreateBoardModal({ isOpen, onClose }: Props) {
 					</ModalBody>
 
 					<ModalFooter>
-						<Button colorScheme="blue" mr={3} type="submit">
+						<Button colorScheme="blue" mr={3} type="submit" size="sm">
 							Pano Oluştur
 						</Button>
-						<Button variant="ghost" onClick={onClose}>
+						<Button variant="ghost" onClick={onClose} size="sm">
 							Kapat
 						</Button>
 					</ModalFooter>
