@@ -1,30 +1,42 @@
 import { useDisclosure } from "@chakra-ui/hooks";
 import { Card } from "models/Card";
 import { MotionFlex } from "motion/chakra";
+import { Draggable, DraggableProvided } from "react-beautiful-dnd";
+import { getStyle } from "utils/getStyle";
 import CardDetailModal from "./CardDetailModal";
 
 type Props = {
 	card: Card;
+	provided: DraggableProvided;
+	isDragging: boolean;
 };
 
-export default function CardElement({ card }: Props) {
+export default function CardElement({ card, provided, isDragging }: Props) {
 	const { isOpen, onOpen, onClose } = useDisclosure();
-
+	const restOfStyles = getStyle({ draggableStyle: provided.draggableProps.style, isDragging });
 	return (
 		<>
-			<MotionFlex
-				maxW="300px"
-				whileHover={{ filter: "brightness(0.95)" }}
-				cursor="pointer"
-				bg="gray.100"
-				boxShadow="md"
-				p="5px 10px"
-				mb="5px"
-				borderRadius="sm"
-				onClick={onOpen}
+			<div
+				ref={provided.innerRef}
+				{...provided.draggableProps}
+				{...provided.dragHandleProps}
+				style={{ filter: isDragging ? "brightness(1.1)" : "brightness(1.0)", ...restOfStyles }}
 			>
-				{card.name}
-			</MotionFlex>
+				<MotionFlex
+					userSelect="none"
+					maxW="300px"
+					whileHover={{ filter: "brightness(0.95)" }}
+					cursor="pointer"
+					bg="gray.100"
+					boxShadow="md"
+					p="5px 10px"
+					borderRadius="sm"
+					onClick={onOpen}
+				>
+					{card.name}
+				</MotionFlex>
+			</div>
+
 			<CardDetailModal card={card} isOpen={isOpen} onClose={onClose} />
 		</>
 	);

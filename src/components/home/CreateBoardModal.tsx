@@ -6,7 +6,7 @@ import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHea
 import { Radio, RadioGroup } from "@chakra-ui/radio";
 import { useHistory } from "react-router";
 import { useBoardStore } from "store/useBoardStore";
-import { generateId } from "utils/generateId";
+import { v4 as uuidv4 } from "uuid";
 import { useState } from "react";
 import useCustomToast from "hooks/useCustomToast";
 
@@ -50,7 +50,7 @@ export default function CreateBoardModal({ isOpen, onClose }: Props) {
 			warningToast("Lütfen bir renk teması seçiniz.");
 			return;
 		}
-		const uid = generateId();
+		const uid = uuidv4();
 		history.push(`/board/${uid}`);
 		createNewBoard(uid, data.boardName, themeColor);
 		onClose();
