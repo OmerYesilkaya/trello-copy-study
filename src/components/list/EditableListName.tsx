@@ -14,12 +14,14 @@ type EditableListNameProps = {
 
 export function EditableListName({ list, isDragging, ...restProps }: EditableListNameProps) {
 	const [name, setName] = useState(list.name);
-	const { updateListName } = useBoardStore((state) => ({ updateListName: state.updateListName }));
+	const { updateListName, removeListFromBoard } = useBoardStore((state) => ({
+		updateListName: state.updateListName,
+		removeListFromBoard: state.removeListFromBoard,
+	}));
 
 	function handleListDelete() {
-		// TODO(omer): add deleting list functionality
-		// maybe with an alert before deleting
-		return null;
+		// maybe add an confirmation alert before deleting
+		removeListFromBoard(list.id);
 	}
 
 	return (
