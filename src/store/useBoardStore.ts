@@ -1,7 +1,7 @@
 import { Board } from "models/Board";
 import create from "zustand";
 import { persist } from "zustand/middleware";
-import { generateId } from "utils/generateId";
+import { v4 as uuidv4 } from "uuid";
 import { List } from "models/List";
 import { Card } from "models/Card";
 import { Comment } from "models/Comment";
@@ -18,10 +18,14 @@ type BoardStoreProps = {
 	toggleFavoriteBoard: (id: string) => void;
 	addListToBoard: (name: string) => void;
 	updateListName: (listId: string, name: string) => void;
-	addCardToList: (listId: string, text: string) => void;
+	addNewCardToList: (listId: string, text: string) => void;
 	getListFromId: (listId: string) => List | null;
 	addCommentToCard: (cardId: string, listId: string, text: string) => void;
 	addDescToCard: (cardId: string, listId: string, text: string) => void;
+	reorderList: (cards: Card[], listId: string, startIndex: number, endIndex: number) => void;
+	reorderBoard: (list: string[], startIndex: number, endIndex: number) => void;
+	removeCardFromList: (list: List, index: number) => void;
+	addExistingCardToList: (list: List, card: Card, index: number) => void;
 };
 
 export const useBoardStore = create<BoardStoreProps>(
@@ -44,7 +48,8 @@ export const useBoardStore = create<BoardStoreProps>(
 
 				newBoard.assignees = [];
 				newBoard.isFavorited = false;
-				newBoard.lists = [];
+				newBoard.lists = {};
+				newBoard.listOrder = [];
 				set((prev) => ({ boards: [...prev.boards, newBoard] }));
 			},
 			removeBoard: (id) => {
@@ -76,31 +81,37 @@ export const useBoardStore = create<BoardStoreProps>(
 				set({ boards: newBoards });
 			},
 			addListToBoard: (name) => {
+				const uniqId = uuidv4();
+
 				let list = {} as List;
 				const boardData = get().getActiveBoardData();
 				const boards = get().boards;
 				if (!boardData) return;
-				list.id = generateId();
+				list.id = uniqId;
 				list.cards = [];
 				list.name = name;
-				list.position = boardData.lists.length;
-				boardData.lists.push(list);
+
+				boardData.listOrder = [...boardData.listOrder, uniqId];
+				boardData.lists = { ...boardData.lists, [uniqId]: list };
 
 				set({ boards: boards });
 			},
 			updateListName: (listId, name) => {
-				const currentBoard = get().getActiveBoardData();
-				const boards = get().boards;
-				const targetList = currentBoard?.lists.find((x) => x.id === listId) ?? null;
-				if (!targetList) return;
-				targetList.name = name;
-				set({ boards: boards });
-			},
-			addCardToList: (listId, text) => {
 				const boardData = get().getActiveBoardData();
 				const boards = get().boards;
+				if (!boardData) return;
+				const targetListKey = Object.keys(boardData.lists).find((x) => x === listId) ?? null;
+				if (!targetListKey) return;
+				boardData.lists[targetListKey].name = name;
+				set({ boards: boards });
+			},
+			addNewCardToList: (listId, text) => {
+				const boardData = get().getActiveBoardData();
+				if (!boardData) return;
+
+				const boards = get().boards;
 				const card = {} as Card;
-				card.id = generateId();
+				card.id = uuidv4();
 				card.parentListId = listId;
 				card.name = text;
 				// default values for empty card
@@ -110,16 +121,20 @@ export const useBoardStore = create<BoardStoreProps>(
 				card.isFollowed = false;
 				card.thumbnail = "";
 
-				const targetList = boardData?.lists.find((x) => x.id === listId) ?? ({} as List);
-				targetList.cards.push(card);
+				const targetListKey = Object.keys(boardData.lists).find((x) => x === listId) ?? null;
+				if (!targetListKey) return;
+				boardData.lists[targetListKey].cards.push(card);
 
 				set({ boards: boards });
 			},
 			getListFromId: (listId) => {
 				const boardData = get().getActiveBoardData();
+				if (!boardData) return null;
+				const targetListKey = Object.keys(boardData.lists).find((x) => x === listId) ?? null;
+				if (!targetListKey) return null;
 
-				const list = boardData?.lists.find((x) => x.id === listId) ?? null;
-				return list;
+				const targetList = boardData.lists[targetListKey];
+				return targetList;
 			},
 			addCommentToCard: (cardId, listId, text) => {
 				const currentList = get().getListFromId(listId);
@@ -133,7 +148,7 @@ export const useBoardStore = create<BoardStoreProps>(
 
 				comment.text = text;
 				comment.user = users[0];
-				comment.id = generateId();
+				comment.id = uuidv4();
 				targetCard.comments.push(comment);
 
 				set({ boards: boards });
@@ -144,10 +159,47 @@ export const useBoardStore = create<BoardStoreProps>(
 
 				const targetCard = currentList?.cards.find((x) => x.id === cardId);
 				if (!targetCard) return;
-				console.log("TargetCard", targetCard);
-				console.log("tyext", text);
 				targetCard.description = text;
 
+				set({ boards: boards });
+			},
+			reorderList(cards, listId, startIndex, endIndex) {
+				const targetList = get().getListFromId(listId);
+				if (!targetList) return null;
+				const boards = get().boards;
+
+				const result = Array.from(cards);
+				const [removed] = result.splice(startIndex, 1);
+				result.splice(endIndex, 0, removed);
+
+				console.log("old", targetList.cards);
+				console.log("new", result);
+				targetList.cards = result;
+
+				set({ boards: boards });
+			},
+			reorderBoard(list, startIndex, endIndex) {
+				const boardData = get().getActiveBoardData();
+				if (!boardData) return null;
+				const boards = get().boards;
+
+				const result = Array.from(list);
+				const [removed] = result.splice(startIndex, 1);
+				result.splice(endIndex, 0, removed);
+
+				boardData.listOrder = result;
+				set({ boards: boards });
+			},
+			removeCardFromList: (list, index) => {
+				const newList = { ...list, cards: list.cards };
+				newList.cards.splice(index, 1);
+				const boards = get().boards;
+				set({ boards: boards });
+			},
+			addExistingCardToList: (list, card, index) => {
+				const newList = { ...list, cards: list.cards };
+				newList.cards.splice(index, 0, card);
+				const boards = get().boards;
 				set({ boards: boards });
 			},
 		}),
