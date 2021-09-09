@@ -2,7 +2,7 @@ import { Board } from "models/Board";
 import create from "zustand";
 import { persist } from "zustand/middleware";
 import { v4 as uuidv4 } from "uuid";
-import { List, ListMap } from "models/List";
+import { List } from "models/List";
 import { Card } from "models/Card";
 import { Comment } from "models/Comment";
 import { users } from "constants/users";
@@ -20,6 +20,7 @@ type BoardStoreProps = {
 	removeListFromBoard: (listId: string) => void;
 	setActiveBoardId: (id: string | null) => void;
 	getListFromId: (listId: string) => List | null;
+	getCardFromId: (listId: string, cardId: string) => Card | null;
 	updateListName: (listId: string, name: string) => void;
 	removeCardFromList: (list: List, index: number) => void;
 	addNewCardToList: (listId: string, text: string) => void;
@@ -29,6 +30,9 @@ type BoardStoreProps = {
 	addCommentToCard: (cardId: string, listId: string, text: string) => void;
 	reorderBoard: (list: string[], startIndex: number, endIndex: number) => void;
 	reorderList: (cards: Card[], listId: string, startIndex: number, endIndex: number) => void;
+	updateCardTags: (cardId: string, listId: string, tags: string[]) => void;
+	updateCardColor: (cardId: string, listId: string, color: string) => void;
+	deleteCard: (card: Card) => void;
 };
 
 export const useBoardStore = create<BoardStoreProps>(
@@ -123,6 +127,7 @@ export const useBoardStore = create<BoardStoreProps>(
 				card.description = "";
 				card.isFollowed = false;
 				card.color = "";
+				card.tags = [];
 
 				const targetListKey = Object.keys(boardData.lists).find((x) => x === listId) ?? null;
 				if (!targetListKey) return;
@@ -138,6 +143,14 @@ export const useBoardStore = create<BoardStoreProps>(
 
 				const targetList = boardData.lists[targetListKey];
 				return targetList;
+			},
+			getCardFromId: (listId, cardId) => {
+				const targetList = get().getListFromId(listId);
+				if (!targetList) return null;
+				console.log("cards in list", targetList);
+				console.log("cardid", cardId);
+				const card = targetList.cards.find((x) => x.id === cardId) ?? null;
+				return card;
 			},
 			addCommentToCard: (cardId, listId, text) => {
 				const currentList = get().getListFromId(listId);
@@ -199,6 +212,7 @@ export const useBoardStore = create<BoardStoreProps>(
 			},
 			addExistingCardToList: (list, card, index) => {
 				const newList = { ...list, cards: list.cards };
+				card.parentListId = list.id;
 				newList.cards.splice(index, 0, card);
 				const boards = get().boards;
 				set({ boards: boards });
@@ -208,6 +222,31 @@ export const useBoardStore = create<BoardStoreProps>(
 				if (!currentBoard) return;
 				const boards = get().boards;
 				delete currentBoard.lists[listId];
+				set({ boards: boards });
+			},
+			updateCardTags: (cardId, listId, tags) => {
+				const card = get().getCardFromId(listId, cardId);
+				if (!card) return;
+				const boards = get().boards;
+				card.tags = tags;
+
+				set({ boards: boards });
+			},
+			updateCardColor: (cardId, listId, color) => {
+				const card = get().getCardFromId(listId, cardId);
+				if (!card) return;
+				const boards = get().boards;
+				card.color = color;
+
+				set({ boards: boards });
+			},
+			deleteCard: (card) => {
+				const parentList = get().getListFromId(card.parentListId);
+				if (!parentList) return;
+				const boards = get().boards;
+				const idx = parentList.cards.findIndex((x) => x.id === card.id);
+				parentList.cards.splice(idx, 1);
+
 				set({ boards: boards });
 			},
 		}),

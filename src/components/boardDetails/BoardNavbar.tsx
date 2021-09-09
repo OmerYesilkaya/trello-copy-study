@@ -34,7 +34,7 @@ export default function BoardNavbar({ data }: BoardNavbarParams) {
 			</Button>
 			<Divider orientation="vertical" h="50%" mr="0.5em" />
 			{data.assignees.map((assignee) => (
-				<UserLogo name={assignee.name} />
+				<UserLogo key={assignee.id} name={assignee.name} />
 			))}
 			<Button colorScheme="whiteAlpha" size="sm" mr="0.5em">
 				Davet et

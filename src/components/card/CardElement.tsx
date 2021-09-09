@@ -1,7 +1,9 @@
 import { useDisclosure } from "@chakra-ui/hooks";
+import { Badge, Box, Center, Flex, Grid, HStack, Text, VStack } from "@chakra-ui/layout";
 import { Card } from "models/Card";
 import { MotionFlex } from "motion/chakra";
 import { DraggableProvided } from "react-beautiful-dnd";
+import { MdComment } from "react-icons/md";
 import { getStyle } from "utils/getStyle";
 import CardDetailModal from "./CardDetailModal";
 
@@ -32,10 +34,28 @@ export default function CardElement({ card, provided, isDragging }: Props) {
 					p="5px 10px"
 					borderRadius="sm"
 					borderRight="5px solid"
-					borderColor={`${card.color}.500`}
+					borderColor={`${card.color ? card.color : "gray"}.500`}
 					onClick={onOpen}
 				>
-					{card.name}
+					<VStack w="100%">
+						<Flex w="100%">
+							<Text mr="5px">{card.name}</Text>
+							{card.comments.length > 0 && (
+								<Center alignSelf="start" mt="5px" ml="auto" color="gray">
+									<MdComment size="0.8em" />
+								</Center>
+							)}
+						</Flex>
+						{card.tags.length > 0 && (
+							<Grid alignSelf="start" templateColumns="repeat(4, 1fr)" gap="4px" m={0}>
+								{card.tags.map((tag, idx) => (
+									<Badge m={0} key={idx} colorScheme={tag.toLowerCase()}>
+										{tag}
+									</Badge>
+								))}
+							</Grid>
+						)}
+					</VStack>
 				</MotionFlex>
 			</div>
 

@@ -1,16 +1,13 @@
-import { Button } from "@chakra-ui/button";
-import { Badge, Flex, Text } from "@chakra-ui/layout";
+import { Badge, Center, Flex, Spacer, Text } from "@chakra-ui/layout";
 import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay } from "@chakra-ui/modal";
 import { BiCreditCardFront } from "react-icons/bi";
-import { HiMenuAlt2 } from "react-icons/hi";
-import { MdList } from "react-icons/md";
-import useCustomToast from "hooks/useCustomToast";
 import { Card } from "models/Card";
 import { useBoardStore } from "store/useBoardStore";
-import { Textarea } from "@chakra-ui/textarea";
-import CommentInput from "./CommentInput";
-import CommentElement from "./CommentElement";
 import CardDescription from "./CardDescription";
+import CardTags from "./CardTags";
+import CardComments from "./CardComments";
+import CardColor from "./CardColor";
+import { Button } from "@chakra-ui/button";
 
 type Props = {
 	isOpen: boolean;
@@ -19,20 +16,28 @@ type Props = {
 };
 
 export default function CardDetailModal({ isOpen, onClose, card }: Props) {
-	const { warningToast } = useCustomToast();
-	const { getListFromId } = useBoardStore((state) => ({
-		createNewBoard: state.createNewBoard,
+	const { getListFromId, deleteCard } = useBoardStore((state) => ({
+		deleteCard: state.deleteCard,
 		getListFromId: state.getListFromId,
 	}));
+
+	function handleDeleteCard() {
+		onClose();
+		deleteCard(card);
+	}
 
 	return (
 		<Modal isOpen={isOpen} onClose={onClose} isCentered={true} size="2xl">
 			<ModalOverlay />
-			<ModalContent>
+			<ModalContent borderTop="5px solid" borderColor={`${card.color ? card.color : "gray"}.500`}>
 				<ModalHeader>
 					<Flex align="center">
-						<BiCreditCardFront />
-						<Text ml="5px">{card.name}</Text>
+						<Center minW="25px" alignSelf="start" mt="6px">
+							<BiCreditCardFront />
+						</Center>
+						<Text ml="5px" wordBreak="break-word" pr="1.1em" title={card.name}>
+							{card.name.length > 100 ? card.name.substring(0, 100) + "..." : card.name}
+						</Text>
 					</Flex>
 					<Flex align="center">
 						<Badge>{getListFromId(card.parentListId)?.name}</Badge>{" "}
@@ -40,25 +45,22 @@ export default function CardDetailModal({ isOpen, onClose, card }: Props) {
 							listesinde
 						</Text>
 					</Flex>
+					<CardTags card={card} />
 				</ModalHeader>
 				<ModalCloseButton />
 				<ModalBody mb="1.5em">
 					<Flex direction="column">
 						<CardDescription card={card} />
-						<Flex align="center" mt="10px">
-							<MdList size="1.5em" />{" "}
-							<Text fontWeight="semibold" ml="5px">
-								Etkinlik
-							</Text>
-						</Flex>
-						<CommentInput card={card} />
-						<Flex direction="column">
-							{card.comments.map((comment) => (
-								<CommentElement key={comment.id} comment={comment} />
-							))}
-						</Flex>
+						<CardComments card={card} />
 					</Flex>
 				</ModalBody>
+				<ModalFooter>
+					<Button size="sm" colorScheme="red" variant="ghost" onClick={handleDeleteCard}>
+						Kartı sil
+					</Button>
+					<Spacer />
+					<CardColor card={card} />
+				</ModalFooter>
 			</ModalContent>
 		</Modal>
 	);
