@@ -42,6 +42,9 @@ export default function ListElement({ list, index }: Props) {
 		};
 	}, []);
 
+	if (!list) return null;
+	// Note(omer): For some reason, I have to return null if there is no list. If this is removed site crashes because list is sometimes undefined
+
 	return (
 		<Draggable draggableId={list.id} index={index}>
 			{(provided, snapshot) => (
@@ -56,7 +59,7 @@ export default function ListElement({ list, index }: Props) {
 						h="max-content"
 						bg="gray.200"
 						mr="10px"
-						wordBreak="break-all"
+						wordBreak="break-word"
 						direction="column"
 						ref={targetRef}
 					>
