@@ -12,7 +12,7 @@ type BoardNavbarParams = {
 export default function BoardNavbar({ data }: BoardNavbarParams) {
 	const { toggleFavoriteBoard } = useBoardStore((state) => ({ toggleFavoriteBoard: state.toggleFavoriteBoard }));
 	return (
-		<Flex align="center" w="100%" p="0.5em" px="1em" color="white">
+		<Flex minH="4.5vh" align="center" w="100%" px="0.5em" color="white">
 			<Text fontSize="20px" fontWeight="bold" mr="0.5em">
 				{data.name}
 			</Text>

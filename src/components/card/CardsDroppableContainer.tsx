@@ -5,17 +5,18 @@ import Cards from "./Cards";
 
 type Props = {
 	list: List;
-	index: number;
 };
 
-export default function CardsDroppableContainer({ list, index }: Props) {
+export default function CardsDroppableContainer({ list }: Props) {
 	return (
 		<Droppable droppableId={list.id}>
-			{(provided) => {
+			{(provided, snapshot) => {
 				return (
 					<div {...provided.droppableProps} ref={provided.innerRef}>
 						<Cards list={list} />
-						<Box my="5px">{provided.placeholder}</Box>
+						<Box my="5px" filter={`brightness(${snapshot.isDraggingOver ? 1.1 : 1.0})`}>
+							{provided.placeholder}
+						</Box>
 						{/* Note(omer): Some margin so that we can drop items to empty lists */}
 					</div>
 				);

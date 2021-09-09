@@ -7,7 +7,7 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 function App() {
 	return (
 		<Router>
-			<Flex w="100vw" h="100vh" direction="column" align="center">
+			<Flex w="100vw" h="100vh" maxW="100vw" maxH="100vh" direction="column" align="center">
 				<Navbar />
 				<Switch>
 					<Route exact path="/board/:id">

@@ -64,7 +64,7 @@ export default function ListElement({ list, index }: Props) {
 						ref={targetRef}
 					>
 						<EditableListName list={list} isDragging={snapshot.isDragging} {...provided.dragHandleProps} />
-						<CardsDroppableContainer list={list} index={index} />
+						<CardsDroppableContainer list={list} />
 						{isEditActive ? (
 							<Flex direction="column" mb="5px" mt="5px">
 								<Input

@@ -9,7 +9,7 @@ type Props = {
 
 export default function Cards({ list }: Props) {
 	return (
-		<Box maxH="60vh" overflow="auto">
+		<Box>
 			{list.cards.map((card, index) => (
 				<Draggable key={card.id} draggableId={card.id} index={index}>
 					{(provided, snapshot) => <CardElement key={card.id} card={card} provided={provided} isDragging={snapshot.isDragging} />}

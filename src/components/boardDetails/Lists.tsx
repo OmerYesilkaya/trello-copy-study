@@ -64,7 +64,8 @@ export default function Lists({ board }: ListsProps) {
 	}, []);
 
 	return (
-		<Flex p="1em" maxW="100vw" overflow="auto" h="100%">
+		<Flex p="1em" maxW="100vw" overflow="auto" h="91vh">
+			{/* Note(omer): 91vh here is to disable vertical scrolling on navbars, both of the navbards are 4.5vh because they look good. 100% doesnt seem to work */}
 			<DragDropContext onDragEnd={handleDragEnd}>
 				<ListElementDroppableContainer>
 					{board.listOrder.map((listKey, index) => (
