@@ -1,7 +1,7 @@
 import { useDisclosure } from "@chakra-ui/hooks";
 import { Card } from "models/Card";
 import { MotionFlex } from "motion/chakra";
-import { Draggable, DraggableProvided } from "react-beautiful-dnd";
+import { DraggableProvided } from "react-beautiful-dnd";
 import { getStyle } from "utils/getStyle";
 import CardDetailModal from "./CardDetailModal";
 
@@ -31,6 +31,8 @@ export default function CardElement({ card, provided, isDragging }: Props) {
 					boxShadow="md"
 					p="5px 10px"
 					borderRadius="sm"
+					borderRight="5px solid"
+					borderColor={`${card.color}.500`}
 					onClick={onOpen}
 				>
 					{card.name}
