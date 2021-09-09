@@ -2,30 +2,33 @@ import { Board } from "models/Board";
 import create from "zustand";
 import { persist } from "zustand/middleware";
 import { v4 as uuidv4 } from "uuid";
-import { List } from "models/List";
+import { List, ListMap } from "models/List";
 import { Card } from "models/Card";
 import { Comment } from "models/Comment";
 import { users } from "constants/users";
 
 type BoardStoreProps = {
+	// values
 	activeBoardId: string | null;
 	boards: Board[];
-	setActiveBoardId: (id: string | null) => void;
-	getActiveBoardData: () => Board | null;
-	createNewBoard: (id: string, name: string, themeColor: string) => void;
-	removeBoard: (id: string) => void;
+	// functions
 	getCurrentTheme: () => string;
-	toggleFavoriteBoard: (id: string) => void;
+	removeBoard: (id: string) => void;
+	getActiveBoardData: () => Board | null;
 	addListToBoard: (name: string) => void;
-	updateListName: (listId: string, name: string) => void;
-	addNewCardToList: (listId: string, text: string) => void;
+	toggleFavoriteBoard: (id: string) => void;
+	removeListFromBoard: (listId: string) => void;
+	setActiveBoardId: (id: string | null) => void;
 	getListFromId: (listId: string) => List | null;
-	addCommentToCard: (cardId: string, listId: string, text: string) => void;
-	addDescToCard: (cardId: string, listId: string, text: string) => void;
-	reorderList: (cards: Card[], listId: string, startIndex: number, endIndex: number) => void;
-	reorderBoard: (list: string[], startIndex: number, endIndex: number) => void;
+	updateListName: (listId: string, name: string) => void;
 	removeCardFromList: (list: List, index: number) => void;
+	addNewCardToList: (listId: string, text: string) => void;
+	addDescToCard: (cardId: string, listId: string, text: string) => void;
 	addExistingCardToList: (list: List, card: Card, index: number) => void;
+	createNewBoard: (id: string, name: string, themeColor: string) => void;
+	addCommentToCard: (cardId: string, listId: string, text: string) => void;
+	reorderBoard: (list: string[], startIndex: number, endIndex: number) => void;
+	reorderList: (cards: Card[], listId: string, startIndex: number, endIndex: number) => void;
 };
 
 export const useBoardStore = create<BoardStoreProps>(
@@ -119,7 +122,7 @@ export const useBoardStore = create<BoardStoreProps>(
 				card.comments = [];
 				card.description = "";
 				card.isFollowed = false;
-				card.thumbnail = "";
+				card.color = "";
 
 				const targetListKey = Object.keys(boardData.lists).find((x) => x === listId) ?? null;
 				if (!targetListKey) return;
@@ -172,8 +175,6 @@ export const useBoardStore = create<BoardStoreProps>(
 				const [removed] = result.splice(startIndex, 1);
 				result.splice(endIndex, 0, removed);
 
-				console.log("old", targetList.cards);
-				console.log("new", result);
 				targetList.cards = result;
 
 				set({ boards: boards });
@@ -200,6 +201,13 @@ export const useBoardStore = create<BoardStoreProps>(
 				const newList = { ...list, cards: list.cards };
 				newList.cards.splice(index, 0, card);
 				const boards = get().boards;
+				set({ boards: boards });
+			},
+			removeListFromBoard: (listId) => {
+				const currentBoard = get().getActiveBoardData();
+				if (!currentBoard) return;
+				const boards = get().boards;
+				delete currentBoard.lists[listId];
 				set({ boards: boards });
 			},
 		}),
