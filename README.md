@@ -1,46 +1,42 @@
-# Getting Started with Create React App
+# Trello Clone Study
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+### Running the project
+In order to run the project you must;
+* Clone the repo
+* Open up a command prompt in the file you cloned the repo
+* Run `yarn` if you have yarn installed, if not run `npm install`
+* Once that's done run `yarn start` (`npm start` if yarn is not installed ) and the project will start
 
-## Available Scripts
+### About the project
+Project consists of 2 pages, one is where user views the boards and the other is the details of the board.
 
-In the project directory, you can run:
+Buttons on the navbar ( except home button and trello logo, which will route user to home page on click ) and the homepage are there for visuals, they don't have any functionality.
 
-### `yarn start`
+To add a new board user would press "Pano oluştur" button and give it a name and a theme color. Doing this will immediately route user to created board details.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+In details page user will see an empty board with a board navbar on top. Only search bar and star icon has functionality, rest is there for looking like Trello. Star allows you to flag the board as favorite, this doesn't mean anything right now but maybe in the future. Search bar will filter the cards by looking at their names, tags and comments and showing only the matching cards and their parent lists.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+In board details page, user also could add new lists pressing "Başka liste ekleyin" button.
 
-### `yarn test`
+Lists have "Kart ekle" button to add cards to the lists. A trash can icon to delete the list. Clicking the list name allows user to edit the said lists name. Other buttons are there to look like Trello, they dont have any functionality.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Created cards are clickable and will open up a modal once clicked. In these modals user can see everything about the card, add a description, add comments, tags and color. Since there is no user system all the comments are from the same user and all of them are deletable and updateable. Cards are also deletable by clicking the "Kartı sil" button on the left bottom corner.
 
-### `yarn build`
+By dragging the whitespace on lists user is able to rearrange and move lists between each other. By dragging the cards user is able to move cards to other lists or rearrange cards within lists.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+--------------------------------
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+All the changes made in the app are stored in local storage, refreshing the page will not result in the data being lost. Unless you clean your local storage, you can use this app locally as a todo app.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+If there are any errors or bugs I have missed please let me now by mailing me:
+omerfarukyesilkaya@gmail.com
 
-### `yarn eject`
+### Technologies used in the project
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+* React
+* TypeScript
+* ChakraUI
+* FramerMotion
+* React DnD Awesome
+* Zustand
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
