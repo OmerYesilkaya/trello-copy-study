@@ -8,6 +8,7 @@ import CardTags from "./CardTags";
 import CardComments from "./CardComments";
 import CardColor from "./CardColor";
 import { Button } from "@chakra-ui/button";
+import EditableCardTitle from "./EditableCardTitle";
 
 type Props = {
 	isOpen: boolean;
@@ -27,17 +28,12 @@ export default function CardDetailModal({ isOpen, onClose, card }: Props) {
 	}
 
 	return (
-		<Modal isOpen={isOpen} onClose={onClose} isCentered={true} size="2xl">
+		<Modal isOpen={isOpen} onClose={onClose} isCentered={true} size="2xl" autoFocus={false}>
 			<ModalOverlay />
 			<ModalContent borderTop="5px solid" borderColor={`${card.color ? card.color : "gray"}.500`}>
 				<ModalHeader>
 					<Flex align="center">
-						<Center minW="25px" alignSelf="start" mt="6px">
-							<BiCreditCardFront />
-						</Center>
-						<Text ml="5px" wordBreak="break-word" pr="1.1em" title={card.name}>
-							{card.name.length > 100 ? card.name.substring(0, 100) + "..." : card.name}
-						</Text>
+						<EditableCardTitle card={card} />
 					</Flex>
 					<Flex align="center">
 						<Badge>{getListFromId(card.parentListId)?.name}</Badge>{" "}
