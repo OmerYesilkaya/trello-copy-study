@@ -1,7 +1,7 @@
 # Trello Clone Study
 
 ### Running the project
-Before beggining to run the project you either have npm or yarn installed on your computer.
+Before you begin to run the project you need to have either npm or yarn installed on your computer.
 After that you should;
 * Clone the repo
 * Open up a command prompt in the file you cloned the repo
