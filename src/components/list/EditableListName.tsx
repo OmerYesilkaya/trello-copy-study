@@ -1,6 +1,6 @@
 import { IconButton } from "@chakra-ui/button";
 import { Editable, EditableInput, EditablePreview } from "@chakra-ui/editable";
-import { Flex } from "@chakra-ui/layout";
+import { Flex, Spacer } from "@chakra-ui/layout";
 import { List } from "models/List";
 import { useState } from "react";
 import { BiTrash } from "react-icons/bi";
@@ -20,12 +20,11 @@ export function EditableListName({ list, isDragging, ...restProps }: EditableLis
 	}));
 
 	function handleListDelete() {
-		// maybe add an confirmation alert before deleting
 		removeListFromBoard(list.id);
 	}
 
 	return (
-		<Flex align="center" justify="space-between" filter={`brightness(${isDragging ? 1.1 : 1.0})`} {...restProps}>
+		<Flex align="center" justify="space-between" filter={`brightness(${isDragging ? 1.1 : 1.0})`}>
 			<Flex align="center" my="3px">
 				<FaTrello />
 				<Editable ml="5px" onBlur={() => updateListName(list.id, name)} value={name} onChange={setName}>
@@ -33,6 +32,7 @@ export function EditableListName({ list, isDragging, ...restProps }: EditableLis
 					<EditablePreview px="5px" />
 				</Editable>
 			</Flex>
+			<Spacer {...restProps} />
 			<IconButton color="red.300" size="xs" aria-label="More Actions" icon={<BiTrash size="1.5em" />} onClick={handleListDelete} />
 		</Flex>
 	);
