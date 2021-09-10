@@ -1,4 +1,4 @@
-import { Flex } from "@chakra-ui/layout";
+import { Center, Flex, Text, VStack } from "@chakra-ui/layout";
 import CreateListElement from "components/list/CreateListElement";
 import { Board } from "models/Board";
 import { useEffect, useRef, useState } from "react";
@@ -6,6 +6,9 @@ import { DragDropContext, DropResult } from "react-beautiful-dnd";
 import ListElementDroppableContainer from "components/list/ListElementDroppableContainer";
 import ListElement from "components/list/ListElement";
 import { useBoardStore } from "store/useBoardStore";
+import isEmptyObj from "utils/isEmptyObj";
+import { FaSearch } from "react-icons/fa";
+import EmptyResult from "./EmptyResult";
 
 type ListsProps = {
 	board: Board;
@@ -65,14 +68,19 @@ export default function Lists({ board }: ListsProps) {
 
 	return (
 		<Flex p="1em" maxW="100vw" overflow="auto" h="91vh">
-			{/* Note(omer): 91vh here is to disable vertical scrolling on navbars, both of the navbards are 4.5vh because they look good. 100% doesnt seem to work */}
-			<DragDropContext onDragEnd={handleDragEnd}>
-				<ListElementDroppableContainer>
-					{board.listOrder.map((listKey, index) => (
-						<ListElement key={listKey} list={board.lists[listKey]} index={index} />
-					))}
-				</ListElementDroppableContainer>
-			</DragDropContext>
+			{/* Note(omer): 91vh here is to disable vertical scrolling on navbars, both of the navbards are 4.5vh because they look good that way. h=100% doesnt seem to work */}
+			{isEmptyObj(board.lists) ? (
+				<EmptyResult />
+			) : (
+				<DragDropContext onDragEnd={handleDragEnd}>
+					<ListElementDroppableContainer>
+						{board.listOrder.map((listKey, index) => (
+							<ListElement key={listKey} list={board.lists[listKey]} index={index} />
+						))}
+					</ListElementDroppableContainer>
+				</DragDropContext>
+			)}
+
 			<CreateListElement targetRef={targetRef} isEditActive={isEditActive} setIsEditActive={setIsEditActive} />
 		</Flex>
 	);
