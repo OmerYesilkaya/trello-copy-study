@@ -34,10 +34,6 @@ export default function Navbar() {
 						</Text>
 					</Flex>
 				</NavbarButton>
-				<InputGroup size="sm" w="200px">
-					<Input fontSize="14px" border="none" placeholder="Şuraya atla..." />
-					<InputRightElement children={<FaSearch color={colors.primaryWhite} />} />
-				</InputGroup>
 			</Flex>
 			{/* 40 is about the same with half of the trello logo width, it is hardcoded, maybe get image width with ref in the future */}
 			<Box cursor="pointer" position="absolute" left={window.innerWidth / 2 - 40} onClick={() => history.push("/")}>
