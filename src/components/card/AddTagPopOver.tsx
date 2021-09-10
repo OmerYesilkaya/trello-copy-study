@@ -1,5 +1,5 @@
 import { Popover, PopoverArrow, PopoverBody, PopoverCloseButton, PopoverContent, PopoverTrigger } from "@chakra-ui/popover";
-import { Button, Text, Grid, Checkbox, Box } from "@chakra-ui/react";
+import { Button, Text, Grid, Checkbox } from "@chakra-ui/react";
 import { Card } from "models/Card";
 import { useState } from "react";
 import { FaPlus } from "react-icons/fa";

@@ -1,6 +1,6 @@
 import { Button } from "@chakra-ui/button";
-import { Grid, Text, VStack } from "@chakra-ui/layout";
-import { Popover, PopoverTrigger, PopoverContent, PopoverArrow, PopoverCloseButton, PopoverBody, Checkbox } from "@chakra-ui/react";
+import { VStack } from "@chakra-ui/layout";
+import { Popover, PopoverTrigger, PopoverContent, PopoverArrow, PopoverCloseButton, PopoverBody } from "@chakra-ui/react";
 import { Card } from "models/Card";
 import { useBoardStore } from "store/useBoardStore";
 

@@ -1,8 +1,6 @@
-import { Input, InputGroup, InputRightElement } from "@chakra-ui/input";
 import { Box, Flex, Text } from "@chakra-ui/layout";
-import { colors } from "constants/colors";
 import { BsFillGrid3X3GapFill } from "react-icons/bs";
-import { FaBell, FaHome, FaSearch, FaTrello } from "react-icons/fa";
+import { FaBell, FaHome, FaTrello } from "react-icons/fa";
 import { FiInfo } from "react-icons/fi";
 import trelloLogo from "assets/trello_logo.gif";
 

@@ -1,4 +1,4 @@
-import { Center, Flex, Text, VStack } from "@chakra-ui/layout";
+import { Flex } from "@chakra-ui/layout";
 import CreateListElement from "components/list/CreateListElement";
 import { Board } from "models/Board";
 import { useEffect, useRef, useState } from "react";
@@ -7,7 +7,6 @@ import ListElementDroppableContainer from "components/list/ListElementDroppableC
 import ListElement from "components/list/ListElement";
 import { useBoardStore } from "store/useBoardStore";
 import isEmptyObj from "utils/isEmptyObj";
-import { FaSearch } from "react-icons/fa";
 import EmptyResult from "./EmptyResult";
 
 type ListsProps = {

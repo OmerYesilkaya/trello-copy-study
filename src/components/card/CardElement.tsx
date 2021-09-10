@@ -1,5 +1,5 @@
 import { useDisclosure } from "@chakra-ui/hooks";
-import { Badge, Box, Center, Flex, Grid, HStack, Text, VStack } from "@chakra-ui/layout";
+import { Badge, Center, Flex, Grid, Text, VStack } from "@chakra-ui/layout";
 import { Card } from "models/Card";
 import { MotionFlex } from "motion/chakra";
 import { DraggableProvided } from "react-beautiful-dnd";

@@ -1,6 +1,5 @@
-import { Badge, Center, Flex, Spacer, Text } from "@chakra-ui/layout";
+import { Badge, Flex, Spacer, Text } from "@chakra-ui/layout";
 import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay } from "@chakra-ui/modal";
-import { BiCreditCardFront } from "react-icons/bi";
 import { Card } from "models/Card";
 import { useBoardStore } from "store/useBoardStore";
 import CardDescription from "./CardDescription";
