@@ -11,6 +11,7 @@ type BoardStoreProps = {
 	// values
 	activeBoardId: string | null;
 	boards: Board[];
+	currentSearchFilter: string;
 	// functions
 	getCurrentTheme: () => string;
 	removeBoard: (id: string) => void;
@@ -33,6 +34,10 @@ type BoardStoreProps = {
 	updateCardTags: (cardId: string, listId: string, tags: string[]) => void;
 	updateCardColor: (cardId: string, listId: string, color: string) => void;
 	deleteCard: (card: Card) => void;
+	updateCardName: (cardId: string, listId: string, name: string) => void;
+	updateComment: (cardId: string, listId: string, commentId: string, text: string) => void;
+	removeComment: (cardId: string, listId: string, commentId: string) => void;
+	setCurrentSearchFilter: (value: string) => void;
 };
 
 export const useBoardStore = create<BoardStoreProps>(
@@ -40,6 +45,7 @@ export const useBoardStore = create<BoardStoreProps>(
 		(set, get) => ({
 			activeBoardId: null,
 			boards: [],
+			currentSearchFilter: "",
 			setActiveBoardId: (id) => set({ activeBoardId: id }),
 			getActiveBoardData: () => {
 				const boards = get().boards;
@@ -160,7 +166,7 @@ export const useBoardStore = create<BoardStoreProps>(
 				if (!targetCard) return;
 				const comment = {} as Comment;
 				comment.createDate = new Date();
-				comment.replies = [];
+				comment.lastEditDate = null;
 
 				comment.text = text;
 				comment.user = users[0];
@@ -248,6 +254,34 @@ export const useBoardStore = create<BoardStoreProps>(
 				parentList.cards.splice(idx, 1);
 
 				set({ boards: boards });
+			},
+			updateCardName: (cardId, listId, name) => {
+				const card = get().getCardFromId(listId, cardId);
+				if (!card) return;
+				const boards = get().boards;
+				card.name = name;
+				set({ boards: boards });
+			},
+			updateComment: (cardId, listId, commentId, text) => {
+				const card = get().getCardFromId(listId, cardId);
+				if (!card) return;
+				const boards = get().boards;
+				const targetComment = card.comments.find((x) => x.id === commentId);
+				if (!targetComment) return;
+				targetComment.text = text;
+				targetComment.lastEditDate = new Date();
+				set({ boards: boards });
+			},
+			removeComment: (cardId, listId, commentId) => {
+				const card = get().getCardFromId(listId, cardId);
+				if (!card) return;
+				const boards = get().boards;
+				const commentIdx = card.comments.findIndex((x) => x.id === commentId);
+				card.comments.splice(commentIdx, 1);
+				set({ boards: boards });
+			},
+			setCurrentSearchFilter: (value) => {
+				set({ currentSearchFilter: value });
 			},
 		}),
 		{ name: "board-storage" }
