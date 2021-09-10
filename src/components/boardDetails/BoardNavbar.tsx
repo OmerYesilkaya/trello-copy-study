@@ -26,7 +26,7 @@ export default function BoardNavbar({ data }: BoardNavbarParams) {
 	}
 
 	return (
-		<Flex minH="4.5vh" align="center" w="100%" px="0.5em" color="white">
+		<Flex h="40px" py="5px" align="center" w="100%" px="0.5em" color="white">
 			<Text fontSize="20px" fontWeight="bold" mr="0.5em">
 				{data.name}
 			</Text>

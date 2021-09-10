@@ -17,13 +17,19 @@ type ListsProps = {
 export default function Lists({ board }: ListsProps) {
 	const [isEditActive, setIsEditActive] = useState<string | null>(null);
 	const targetRef = useRef<HTMLDivElement | null>(null);
-	const { getActiveBoardData, reorderList, reorderBoard, removeCardFromList, addExistingCardToList } = useBoardStore((state) => ({
-		getActiveBoardData: state.getActiveBoardData,
-		reorderList: state.reorderList,
-		reorderBoard: state.reorderBoard,
-		removeCardFromList: state.removeCardFromList,
-		addExistingCardToList: state.addExistingCardToList,
-	}));
+	const { getActiveBoardData, reorderList, reorderBoard, removeCardFromList, addExistingCardToList, currentSearchFilter } = useBoardStore(
+		(state) => ({
+			getActiveBoardData: state.getActiveBoardData,
+			reorderList: state.reorderList,
+			reorderBoard: state.reorderBoard,
+			removeCardFromList: state.removeCardFromList,
+			addExistingCardToList: state.addExistingCardToList,
+			currentSearchFilter: state.currentSearchFilter,
+		})
+	);
+
+	const innerBoardHeight = window.innerHeight - 90;
+	//  Note(omer): 90 here is to disable vertical scrolling on outer container, both of the navbards are 45px because they look good that way. h=100% doesnt seem to work
 
 	function handleDragEnd(result: DropResult) {
 		const currentBoard = getActiveBoardData();
@@ -67,9 +73,8 @@ export default function Lists({ board }: ListsProps) {
 	}, []);
 
 	return (
-		<Flex p="1em" maxW="100vw" overflow="auto" h="91vh">
-			{/* Note(omer): 91vh here is to disable vertical scrolling on navbars, both of the navbards are 4.5vh because they look good that way. h=100% doesnt seem to work */}
-			{isEmptyObj(board.lists) ? (
+		<Flex p="1em" maxW="100vw" overflow="auto" h={innerBoardHeight}>
+			{isEmptyObj(board.lists) && currentSearchFilter ? (
 				<EmptyResult />
 			) : (
 				<DragDropContext onDragEnd={handleDragEnd}>

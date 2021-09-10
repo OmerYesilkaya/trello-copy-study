@@ -1,6 +1,7 @@
 import { Button } from "@chakra-ui/button";
 import { useDisclosure } from "@chakra-ui/hooks";
 import { Flex, Grid, Text } from "@chakra-ui/layout";
+import { useMediaQuery } from "@chakra-ui/media-query";
 import { FaPlus } from "react-icons/fa";
 import { useBoardStore } from "store/useBoardStore";
 import BoardCard from "./BoardCard";
@@ -9,6 +10,7 @@ import CreateBoardModal from "./CreateBoardModal";
 export default function Boards() {
 	const { isOpen, onOpen, onClose } = useDisclosure();
 	const { boards } = useBoardStore((state) => ({ boards: state.boards }));
+	const [isLargerThan1280] = useMediaQuery("(min-width: 1400px)");
 
 	return (
 		<Flex w="100%" direction="column" mx="1em">
@@ -26,7 +28,7 @@ export default function Boards() {
 				{boards.length === 0 ? (
 					<Text>Aktif panonuz bulunmamaktadır. Aşağıdaki butona basıp oluşturabilirsiniz.</Text>
 				) : (
-					<Grid w="100%" templateColumns="repeat(4,1fr)" gap="10px" placeItems="center">
+					<Grid w="100%" templateColumns={`repeat(${isLargerThan1280 ? 4 : 3},1fr)`} gap="10px" placeItems="center">
 						{boards.map((board) => (
 							<BoardCard key={board.id} board={board} />
 						))}

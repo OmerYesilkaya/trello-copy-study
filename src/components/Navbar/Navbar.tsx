@@ -18,7 +18,7 @@ export default function Navbar() {
 	const { getCurrentTheme } = useBoardStore((state) => ({ getCurrentTheme: state.getCurrentTheme }));
 
 	return (
-		<Flex minH="4.5vh" w="100%" bg={`${getCurrentTheme()}.700`} px="5px" align="center" position="relative" justify="space-between">
+		<Flex h="40px" py="5px" w="100%" bg={`${getCurrentTheme()}.700`} px="5px" align="center" position="relative" justify="space-between">
 			<Flex>
 				<NavbarButton>
 					<BsFillGrid3X3GapFill />
