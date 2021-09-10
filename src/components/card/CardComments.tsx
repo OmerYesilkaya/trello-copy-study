@@ -19,7 +19,7 @@ export default function CardComments({ card }: Props) {
 			<CommentInput card={card} />
 			<Flex direction="column">
 				{card.comments.map((comment) => (
-					<CommentElement key={comment.id} comment={comment} />
+					<CommentElement key={comment.id} card={card} comment={comment} />
 				))}
 			</Flex>
 		</>
