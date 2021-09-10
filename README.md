@@ -1,16 +1,17 @@
 # Trello Clone Study
 
 ### Running the project
-In order to run the project you must;
+Before beggining to run the project you either have npm or yarn installed on your computer.
+After that you should;
 * Clone the repo
 * Open up a command prompt in the file you cloned the repo
 * Run `yarn` if you have yarn installed, if not run `npm install`
-* Once that's done run `yarn start` (`npm start` if yarn is not installed ) and the project will start
+* Once that's done run `yarn start` ( *`npm start` if yarn is not installed* ) and the project will start
 
 ### About the project
 Project consists of 2 pages, one is where user views the boards and the other is the details of the board.
 
-Buttons on the navbar ( except home button and trello logo, which will route user to home page on click ) and the homepage are there for visuals, they don't have any functionality.
+Buttons on the navbar ( *except home button and trello logo, which will route user to home page on click* ) and the homepage are there for visuals, they don't have any functionality.
 
 To add a new board user would press "Pano oluştur" button and give it a name and a theme color. Doing this will immediately route user to created board details.
 
