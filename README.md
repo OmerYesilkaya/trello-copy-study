@@ -1,5 +1,7 @@
 # Trello Clone Study
 
+https://user-images.githubusercontent.com/21025975/135898959-a4189c32-779b-4fb5-9e1f-1dea687cb500.mp4
+
 ### Running the project
 Before you begin to run the project you need to have either npm or yarn installed on your computer.
 After that you should;
@@ -40,4 +42,8 @@ omerfarukyesilkaya@gmail.com
 * FramerMotion
 * React DnD Awesome
 * Zustand
+
+
+
+
 
