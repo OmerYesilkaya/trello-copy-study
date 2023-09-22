@@ -10,6 +10,7 @@ import { colors } from "constants/colors";
 type SideBarElementProps = {
     text: string;
     icon: JSX.Element;
+    path: string;
 };
 
 const SideBarElement: ChakraComponent<React.FC<SideBarElementProps>> = ({ text, icon, path, ...restProps }) => {
