@@ -1,38 +1,34 @@
-import { Flex } from "@chakra-ui/layout";
-import BoardNavbar from "components/boardDetails/BoardNavbar";
-import Lists from "components/boardDetails/Lists";
 import { useEffect } from "react";
 import { useParams } from "react-router";
-import { useBoardStore } from "store/useBoardStore";
-import filterBoardData from "utils/filterBoardData";
+import { Flex } from "@chakra-ui/layout";
 
-type BoardParams = {
-	id: string;
-};
+import { BoardNavbar, ListContainer } from "views";
+import { useBoardStore } from "store";
+import { filterBoardData } from "utils";
 
-export default function BoardDetails() {
-	const { id } = useParams<BoardParams>();
-	const { getBoardData, setActiveBoardId, getCurrentTheme, currentSearchFilter } = useBoardStore((state) => ({
-		getBoardData: state.getActiveBoardData,
-		setActiveBoardId: state.setActiveBoardId,
-		getCurrentTheme: state.getCurrentTheme,
-		currentSearchFilter: state.currentSearchFilter,
-	}));
+export function BoardDetails() {
+    const { id } = useParams<{ id: string }>();
+    const { getBoardData, setActiveBoardId, getCurrentTheme, currentSearchFilter } = useBoardStore((state) => ({
+        getBoardData: state.getActiveBoardData,
+        setActiveBoardId: state.setActiveBoardId,
+        getCurrentTheme: state.getCurrentTheme,
+        currentSearchFilter: state.currentSearchFilter,
+    }));
 
-	const boardData = getBoardData();
+    const boardData = getBoardData();
 
-	useEffect(() => {
-		setActiveBoardId(id);
-	}, [setActiveBoardId, id]);
+    useEffect(() => {
+        setActiveBoardId(id);
+    }, [setActiveBoardId, id]);
 
-	if (!boardData) return null;
+    if (!boardData) return null;
 
-	const filteredBoardData = filterBoardData(currentSearchFilter, boardData);
+    const filteredBoardData = filterBoardData(currentSearchFilter, boardData);
 
-	return (
-		<Flex direction="column" bg={`${getCurrentTheme()}.400`} w="100%" h="100%">
-			<BoardNavbar data={boardData} />
-			<Lists board={filteredBoardData} />
-		</Flex>
-	);
+    return (
+        <Flex direction="column" bg={`${getCurrentTheme()}.400`} w="100%" h="100%">
+            <BoardNavbar data={boardData} />
+            <ListContainer board={filteredBoardData} />
+        </Flex>
+    );
 }

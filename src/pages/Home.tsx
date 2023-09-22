@@ -1,20 +1,20 @@
-import { Flex } from "@chakra-ui/layout";
-import Boards from "components/home/Boards";
-import SideBar from "components/home/SideBar";
 import { useEffect } from "react";
-import { useBoardStore } from "store/useBoardStore";
+import { Flex } from "@chakra-ui/layout";
 
-export default function Home() {
-	const { setActiveBoardId } = useBoardStore((state) => ({ setActiveBoardId: state.setActiveBoardId }));
+import { useBoardStore } from "store";
+import { BoardContainer, SideBar } from "views";
 
-	useEffect(() => {
-		setActiveBoardId(null);
-	}, [setActiveBoardId]);
+export function Home() {
+    const { setActiveBoardId } = useBoardStore((state) => ({ setActiveBoardId: state.setActiveBoardId }));
 
-	return (
-		<Flex w="55%" mt="2em">
-			<SideBar />
-			<Boards />
-		</Flex>
-	);
+    useEffect(() => {
+        setActiveBoardId(null);
+    }, [setActiveBoardId]);
+
+    return (
+        <Flex w="55%" mt="2em">
+            <SideBar />
+            <BoardContainer />
+        </Flex>
+    );
 }
