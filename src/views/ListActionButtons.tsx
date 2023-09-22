@@ -15,7 +15,7 @@ export function ListActionButtons({ setIsEditActive, list }: Props) {
             <Button size="xs" fontWeight="normal" w="100%" mr="5px" onClick={() => setIsEditActive(list.id)}>
                 <FaPlus size="0.8em" />{" "}
                 <Text mr="auto" ml="5px">
-                    {list.cards.length === 0 ? "Add another card" : "Add another list"}
+                    Add a card
                 </Text>
             </Button>
             <IconButton size="xs" aria-label="Add Video" icon={<FaCamera />} mr="5px" />
