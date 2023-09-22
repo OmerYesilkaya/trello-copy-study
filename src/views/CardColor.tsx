@@ -26,7 +26,7 @@ export function CardColor({ card }: Props) {
         <Popover>
             <PopoverTrigger>
                 <Button size="sm" mr="7px" colorScheme={card.color ? card.color : "gray"}>
-                    Renk Ekle
+                    Change Color
                 </Button>
             </PopoverTrigger>
             <PopoverContent>

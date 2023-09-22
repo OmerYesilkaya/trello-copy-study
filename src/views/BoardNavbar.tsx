@@ -66,7 +66,7 @@ export function BoardNavbar({ data }: BoardNavbarParams) {
                         fontSize="14px"
                         value={searchValue}
                         placeholder="Search in board..."
-                        bg={`${getCurrentTheme()}.600`}
+                        bg={`${getCurrentTheme()}.700`}
                         onChange={(e) => setSearchValue(e.target.value)}
                     />
                     <InputRightElement children={<FaSearch color="white" />} />

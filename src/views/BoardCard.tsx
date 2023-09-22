@@ -57,7 +57,7 @@ export function BoardCard({ board }: Props) {
             h="100px"
             borderRadius="md"
             boxShadow="lg"
-            bg={`${board.themeColor}.400`}
+            bg={`${board.themeColor}.500`}
             p="0.5em"
             color="white"
             fontWeight="bold"

@@ -16,7 +16,7 @@ export function CardNotFound() {
         >
             <VStack spacing="10px">
                 <FaSearch size="1.5em" />
-                <Text>Sorry, we couldn’t locate a card matching your search. Please try a different query.</Text>
+                <Text>Sorry, we couldn’t find a card matching your search. Please try a different query.</Text>
             </VStack>
         </Center>
     );

@@ -26,7 +26,7 @@ export function BoardDetails() {
     const filteredBoardData = filterBoardData(currentSearchFilter, boardData);
 
     return (
-        <Flex direction="column" bg={`${getCurrentTheme()}.400`} w="100%" h="100%">
+        <Flex direction="column" bg={`${getCurrentTheme()}.900`} w="100%" h="100%">
             <BoardNavbar data={boardData} />
             <ListContainer board={filteredBoardData} />
         </Flex>
