@@ -38,13 +38,13 @@ export function CardDetailModal({ isOpen, onClose, card }: Props) {
             <ModalContent borderTop="5px solid" borderColor={`${card.color ? card.color : "gray"}.500`}>
                 <ModalHeader>
                     <Flex align="center">
-                        <CardEditableTitle card={card} />
-                    </Flex>
-                    <Flex align="center">
                         <Text fontSize="14px" fontWeight="normal" color="gray.500" mr="5px">
                             In
                         </Text>
                         <Badge>{getListFromId(card.parentListId)?.name}</Badge>
+                    </Flex>
+                    <Flex align="center" my="2">
+                        <CardEditableTitle card={card} />
                     </Flex>
                     <CardTags card={card} />
                 </ModalHeader>

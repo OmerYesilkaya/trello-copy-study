@@ -70,6 +70,11 @@ export function ListElement({ list, index }: Props) {
                                     placeholder="Enter a name for the card..."
                                     value={cardText}
                                     onChange={(e) => setCardText(e.target.value)}
+                                    onKeyDown={(e) => {
+                                        if (e.key === "Enter") {
+                                            handleAddCard(list.id);
+                                        }
+                                    }}
                                 />
                                 <Flex mt="5px">
                                     <Button

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Editable, EditableInput, EditablePreview, useEditableControls } from "@chakra-ui/editable";
 import { Center, Flex } from "@chakra-ui/layout";
 import { BiCreditCardFront } from "react-icons/bi";
@@ -21,6 +21,7 @@ function EditableControl() {
 }
 
 export function CardEditableTitle({ card }: Props) {
+    const editableRef = useRef<HTMLDivElement>(null);
     const [name, setName] = useState(card.name);
     const { updateCardName } = useBoardStore((state) => ({
         updateCardName: state.updateCardName,
@@ -33,6 +34,12 @@ export function CardEditableTitle({ card }: Props) {
             </Center>
             <Editable
                 onBlur={() => updateCardName(card.id, card.parentListId, name)}
+                onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                        if (!editableRef.current) return;
+                        editableRef.current.blur();
+                    }
+                }}
                 value={name}
                 onChange={setName}
                 title={card.name}

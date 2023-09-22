@@ -1,4 +1,3 @@
-import React from "react";
 import { useHistory, useLocation } from "react-router";
 import { Flex, Text } from "@chakra-ui/layout";
 import { ChakraComponent } from "@chakra-ui/system";
