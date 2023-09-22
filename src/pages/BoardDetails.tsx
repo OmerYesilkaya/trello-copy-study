@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useParams } from "react-router";
-import { Flex } from "@chakra-ui/layout";
+import { Box, Flex } from "@chakra-ui/layout";
 
 import { BoardNavbar, ListContainer } from "views";
 import { useBoardStore } from "store";
@@ -26,9 +26,11 @@ export function BoardDetails() {
     const filteredBoardData = filterBoardData(currentSearchFilter, boardData);
 
     return (
-        <Flex direction="column" bg={`${getCurrentTheme()}.900`} w="100%" h="100%">
-            <BoardNavbar data={boardData} />
-            <ListContainer board={filteredBoardData} />
-        </Flex>
+        <Box bg={`${getCurrentTheme()}.900`} w="100%" h="100%">
+            <Flex className="pattern" direction={"column"} w="100%" h="100%">
+                <BoardNavbar data={boardData} />
+                <ListContainer board={filteredBoardData} />
+            </Flex>
+        </Box>
     );
 }

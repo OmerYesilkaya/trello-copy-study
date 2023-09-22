@@ -43,14 +43,15 @@ export function Navbar() {
                 </NavbarButton>
             </Flex>
             {/* 40 is about the same with half of the trello logo width, it is hardcoded, maybe get image width with ref in the future */}
-            <Box
+            <Flex
                 cursor="pointer"
                 position="absolute"
                 left={window.innerWidth / 2 - 40}
+                alignItems="center"
                 onClick={() => history.push("/")}
             >
                 <MotionImage opacity={0.6} whileHover={{ opacity: 1 }} h="15px" src={trelloLogo} />
-            </Box>
+            </Flex>
             <Flex align="center">
                 <NavbarButton>
                     <Text fontSize="14px" px="10px">
