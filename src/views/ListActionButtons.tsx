@@ -18,8 +18,8 @@ export function ListActionButtons({ setIsEditActive, list }: Props) {
                     Add a card
                 </Text>
             </Button>
-            <IconButton size="xs" aria-label="Add Video" icon={<FaCamera />} mr="5px" />
-            <IconButton size="xs" aria-label="Create from Theme" icon={<FaTrello />} />
+            <IconButton size="xs" aria-label="Add Video" icon={<FaCamera />} mr="5px" isDisabled />
+            <IconButton size="xs" aria-label="Create from Theme" icon={<FaTrello />} isDisabled />
         </Flex>
     );
 }

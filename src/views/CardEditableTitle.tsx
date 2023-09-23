@@ -33,11 +33,12 @@ export function CardEditableTitle({ card }: Props) {
                 <BiCreditCardFront />
             </Center>
             <Editable
+                ref={editableRef}
                 onBlur={() => updateCardName(card.id, card.parentListId, name)}
                 onKeyDown={(e) => {
                     if (e.key === "Enter") {
                         if (!editableRef.current) return;
-                        editableRef.current.blur();
+                        updateCardName(card.id, card.parentListId, name);
                     }
                 }}
                 value={name}

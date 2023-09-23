@@ -57,11 +57,11 @@ export function BoardNavbar({ data }: BoardNavbarParams) {
                 onClick={() => toggleFavoriteBoard(data.id)}
             />
             <Divider orientation="vertical" h="50%" mr="0.5em" />
-            <Button colorScheme="whiteAlpha" size="sm" mr="0.5em">
+            <Button colorScheme="whiteAlpha" size="sm" mr="0.5em" isDisabled>
                 Add work area
             </Button>
             <Divider orientation="vertical" h="50%" mr="0.5em" />
-            <Button colorScheme="whiteAlpha" size="sm" mr="0.5em">
+            <Button colorScheme="whiteAlpha" size="sm" mr="0.5em" isDisabled>
                 Change visibility
             </Button>
             <Divider orientation="vertical" h="50%" mr="0.5em" />
@@ -69,7 +69,7 @@ export function BoardNavbar({ data }: BoardNavbarParams) {
                 <UserAvatar key={assignee.id} name={assignee.name} />
             ))}
 
-            <Button colorScheme="whiteAlpha" size="sm" mr="0.5em">
+            <Button colorScheme="whiteAlpha" size="sm" mr="0.5em" isDisabled>
                 Invite
             </Button>
             <Divider orientation="vertical" h="50%" mr="0.5em" />

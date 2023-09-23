@@ -1,5 +1,4 @@
 import { useHistory } from "react-router";
-import shallow from "zustand/shallow";
 
 import { Flex, Text } from "@chakra-ui/layout";
 import { Button } from "@chakra-ui/button";
@@ -7,21 +6,29 @@ import { FiInfo } from "react-icons/fi";
 import { BsFillGrid3X3GapFill } from "react-icons/bs";
 import { FaBell, FaHome, FaTrello } from "react-icons/fa";
 
-import trelloLogo from "assets/trello_logo.gif";
 import { users } from "constants/users";
 import { useBoardStore } from "store";
-import { UserAvatar, MotionImage, MotionFlex } from "components";
+import { UserAvatar, MotionFlex } from "components";
 
 type Props = {
     onClick?: VoidFunction;
+    isDisabled?: boolean;
     children: JSX.Element;
 };
 
-export function NavbarButton({ onClick, children }: Props) {
-    const { getCurrentTheme } = useBoardStore((state) => ({ getCurrentTheme: state.getCurrentTheme }), shallow);
+export function NavbarButton({ onClick, isDisabled, children }: Props) {
+    const { getCurrentTheme } = useBoardStore((state) => ({ getCurrentTheme: state.getCurrentTheme }));
 
     return (
-        <Button colorScheme={getCurrentTheme()} h="30px" minW="30px" p="0px" mr="5px" onClick={onClick}>
+        <Button
+            colorScheme={getCurrentTheme()}
+            h="30px"
+            minW="30px"
+            p="0px"
+            mr="5px"
+            onClick={onClick}
+            isDisabled={isDisabled}
+        >
             {children}
         </Button>
     );
@@ -29,7 +36,7 @@ export function NavbarButton({ onClick, children }: Props) {
 
 export function AppNavbar() {
     const history = useHistory();
-    const { getCurrentTheme } = useBoardStore((state) => ({ getCurrentTheme: state.getCurrentTheme }), shallow);
+    const { getCurrentTheme } = useBoardStore((state) => ({ getCurrentTheme: state.getCurrentTheme }));
 
     return (
         <Flex
@@ -43,13 +50,13 @@ export function AppNavbar() {
             justify="space-between"
         >
             <Flex>
-                <NavbarButton>
+                <NavbarButton isDisabled>
                     <BsFillGrid3X3GapFill />
                 </NavbarButton>
                 <NavbarButton onClick={() => history.push("/")}>
                     <FaHome />
                 </NavbarButton>
-                <NavbarButton>
+                <NavbarButton isDisabled>
                     <Flex px="10px" align="center">
                         <FaTrello />
                         <Text ml="6px" fontSize="14px">
@@ -75,15 +82,15 @@ export function AppNavbar() {
                 </Text>
             </MotionFlex>
             <Flex align="center">
-                <NavbarButton>
+                <NavbarButton isDisabled>
                     <Text fontSize="14px" px="10px">
                         Create
                     </Text>
                 </NavbarButton>
-                <NavbarButton>
+                <NavbarButton isDisabled>
                     <FiInfo />
                 </NavbarButton>
-                <NavbarButton>
+                <NavbarButton isDisabled>
                     <FaBell />
                 </NavbarButton>
                 <UserAvatar name={users[0].name} />
