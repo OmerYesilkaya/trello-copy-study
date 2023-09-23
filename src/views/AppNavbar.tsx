@@ -1,6 +1,7 @@
 import { useHistory } from "react-router";
 
-import { Box, Flex, Text } from "@chakra-ui/layout";
+import { Flex, Text } from "@chakra-ui/layout";
+import { Button } from "@chakra-ui/button";
 import { FiInfo } from "react-icons/fi";
 import { BsFillGrid3X3GapFill } from "react-icons/bs";
 import { FaBell, FaHome, FaTrello } from "react-icons/fa";
@@ -9,9 +10,23 @@ import trelloLogo from "assets/trello_logo.gif";
 import { users } from "constants/users";
 import { useBoardStore } from "store";
 import { UserAvatar, MotionImage } from "components";
-import { NavbarButton } from "views";
 
-export function Navbar() {
+type Props = {
+    onClick?: VoidFunction;
+    children: JSX.Element;
+};
+
+export function NavbarButton({ onClick, children }: Props) {
+    const { getCurrentTheme } = useBoardStore((state) => ({ getCurrentTheme: state.getCurrentTheme }));
+
+    return (
+        <Button colorScheme={getCurrentTheme()} h="30px" minW="30px" p="0px" mr="5px" onClick={onClick}>
+            {children}
+        </Button>
+    );
+}
+
+export function AppNavbar() {
     const history = useHistory();
     const { getCurrentTheme } = useBoardStore((state) => ({ getCurrentTheme: state.getCurrentTheme }));
 

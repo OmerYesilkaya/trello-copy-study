@@ -94,7 +94,11 @@ export function ListContainer({ board }: Props) {
                 </DragDropContext>
             )}
 
-            <ListCreateElement targetRef={targetRef} isEditActive={isEditActive} setIsEditActive={setIsEditActive} />
+            <ListCreateElement
+                ref={targetRef}
+                isEditActive={isEditActive}
+                setIsEditActive={(e) => setIsEditActive(e)}
+            />
         </Flex>
     );
 }

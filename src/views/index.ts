@@ -22,6 +22,5 @@ export { ListCreateElement } from "./ListCreateElement";
 export { ListEditableName } from "./ListEditableName";
 export { ListElement } from "./ListElement";
 export { ListElementDroppableContainer } from "./ListElementDroppableContainer";
-export { Navbar } from "./Navbar";
-export { NavbarButton } from "./NavbarButton";
+export { AppNavbar } from "./AppNavbar";
 export { SideBar } from "./SideBar";

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { forwardRef, useState } from "react";
 import { Button } from "@chakra-ui/button";
 import { CloseButton } from "@chakra-ui/close-button";
 import { Input } from "@chakra-ui/input";
@@ -8,12 +8,11 @@ import { FaPlus } from "react-icons/fa";
 import { useBoardStore } from "store";
 
 type Props = {
-    targetRef: React.LegacyRef<HTMLDivElement> | undefined;
     isEditActive: string | null;
-    setIsEditActive: React.Dispatch<React.SetStateAction<string | null>>;
+    setIsEditActive: (value: string | null) => void;
 };
 
-export function ListCreateElement({ targetRef, isEditActive, setIsEditActive }: Props) {
+export const ListCreateElement = forwardRef<HTMLDivElement, Props>(({ isEditActive, setIsEditActive }, targetRef) => {
     const [listName, setListName] = useState("");
     const { getCurrentTheme, addListToBoard } = useBoardStore((state) => ({
         getCurrentTheme: state.getCurrentTheme,
@@ -72,4 +71,4 @@ export function ListCreateElement({ targetRef, isEditActive, setIsEditActive }: 
             )}
         </Flex>
     );
-}
+});

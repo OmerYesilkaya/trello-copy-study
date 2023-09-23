@@ -1,14 +1,14 @@
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { Flex } from "@chakra-ui/layout";
 
-import { Navbar } from "views";
+import { AppNavbar } from "views";
 import { BoardDetails, Home } from "pages";
 
 function App() {
     return (
         <Router>
             <Flex w="100vw" h="100vh" maxW="100vw" maxH="100vh" direction="column" align="center">
-                <Navbar />
+                <AppNavbar />
                 <Switch>
                     <Route exact path="/board/:id">
                         <BoardDetails />
