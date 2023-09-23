@@ -88,7 +88,7 @@ export function ListElement({ list, index }: Props) {
                                 </Flex>
                             </Flex>
                         ) : (
-                            <ListActionButtons setIsEditActive={setIsEditActive} list={list} />
+                            <ListActionButtons setIsEditActive={(e) => setIsEditActive(e)} list={list} />
                         )}
                     </Flex>
                 </div>

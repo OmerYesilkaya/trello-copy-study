@@ -5,7 +5,7 @@ import { FaCamera, FaPlus, FaTrello } from "react-icons/fa";
 import { List } from "models";
 
 type Props = {
-    setIsEditActive: React.Dispatch<React.SetStateAction<string | null>>;
+    setIsEditActive: (value: string | null) => void;
     list: List;
 };
 
