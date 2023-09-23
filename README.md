@@ -1,6 +1,10 @@
 # **Trello Clone Study**
 
-https://github.com/OmerYesilkaya/trello-copy-study/assets/21025975/09d91fa4-8759-4d58-94a3-2ed75b53be65
+
+
+https://github.com/OmerYesilkaya/trello-copy-study/assets/21025975/983dfc62-0c65-427d-88a4-37ac3b8d786c
+
+
 
 ## **Running the project**
 
