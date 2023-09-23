@@ -1,8 +1,8 @@
-# Trello Clone Study
+# **Trello Clone Study**
 
 https://user-images.githubusercontent.com/21025975/135898959-a4189c32-779b-4fb5-9e1f-1dea687cb500.mp4
 
-### Running the project
+## **Running the project**
 
 Before you begin to run the project you need to have either npm or yarn installed on your computer.
 After that you should;
@@ -12,36 +12,63 @@ After that you should;
 -   Run `yarn` if you have yarn installed, if not run `npm install`
 -   Once that's done run `yarn start` ( _`npm start` if yarn is not installed_ ) and the project will start
 
-### About the project
+## **Project Overview**
 
-Project consists of 2 pages, one is where user views the boards and the other is the details of the board.
+This project emulates a minimalistic version of a Trello-like board application, consisting of two main pages:
 
-Buttons on the navbar ( _except home button and trello logo, which will route user to home page on click_ ) and the homepage are there for visuals, they don't have any functionality.
+1. **Board Overview Page**: Where users can view their boards.
+2. **Board Details Page**: This displays the details of the selected board.
 
-To add a new board user would press "Create a board" button and give it a name and a theme color. Doing this will immediately route user to created board details.
+### **Navigation and Visual Elements**
 
-In details page user will see an empty board with a board navbar on top. Only search bar and star icon has functionality, rest is there for looking like Trello. Star allows you to flag the board as favorite, this doesn't mean anything right now but maybe in the future. Search bar will filter the cards by looking at their names, tags and comments and showing only the matching cards and their parent lists.
+The navigation bar contains several buttons for aesthetic purposes only, with the exception of the home button and the Trello logo, which will navigate the user back to the homepage upon click.
 
-In board details page, user also could add new lists pressing "Add another list" button.
+### **Creating a Board**
 
-Lists have "Add card" button to add cards to the lists. A trash can icon to delete the list. Clicking the list name allows user to edit the said lists name. Other buttons are there to look like Trello, they dont have any functionality.
+Users can create a new board by pressing the "Create a Board" button and providing a name and a theme color for the board. Upon creation, users are immediately directed to the details of the newly created board.
 
-Created cards are clickable and will open up a modal once clicked. In these modals user can see everything about the card, add a description, add comments, tags and color. Since there is no user system all the comments are from the same user and all of them are deletable and updateable. Cards are also deletable by clicking the "Kartı sil" button on the left bottom corner.
+### **Board Details Page**
 
-By dragging the whitespace on lists user is able to rearrange and move lists between each other. By dragging the cards user is able to move cards to other lists or rearrange cards within lists.
+#### **Functional Elements**
 
----
+-   **Search Bar**: Filters cards by names, tags, and comments.
+-   **Star Icon**: Flags the board as a favorite (currently no practical functionality).
 
-All the changes made in the app are stored in local storage, refreshing the page will not result in the data being lost. Unless you clean your local storage, you can use this app locally as a todo app.
+#### **Adding & Managing Lists**
 
-If there are any errors or bugs I have missed please let me now by mailing me:
-omerfarukyesilkaya@gmail.com
+Users can add new lists and manage existing ones. Each list allows the user to:
 
-### Technologies used in the project
+-   Add new cards.
+-   Delete the list via the trash can icon.
+-   Edit the list name by clicking on it.
+
+#### **Cards Management**
+
+Cards created within the lists are clickable, revealing a modal with all related details. Within this modal, users can:
+
+-   View, add, update, and delete descriptions, comments, tags, and color.
+-   Since there’s no user system, comments can be perceived as being from the same user and are all editable and removable.
+
+#### **Reordering**
+
+Users have the ability to:
+
+-   Drag the whitespace on lists to rearrange them or move them between each other.
+-   Drag cards to move them to other lists or rearrange them within the same list.
+
+### **Data Persistence**
+
+All changes made within the app are stored in local storage, ensuring data retention even after a page refresh. Unless local storage is cleared, this app can effectively serve as a local to-do app.
+
+### **Feedback and Bug Reports**
+
+If you encounter any errors or bugs that might have been overlooked, please don’t hesitate to let me know by emailing me at [omerfarukyesilkaya@gmail.com](mailto:omerfarukyesilkaya@gmail.com).
+
+## **Technologies used in the project**
 
 -   React
 -   TypeScript
+-   Zustand
 -   ChakraUI
 -   FramerMotion
 -   React DnD Awesome
--   Zustand
