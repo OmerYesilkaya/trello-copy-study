@@ -18,9 +18,9 @@ export const ListCreateElement = forwardRef<HTMLDivElement, Props>(({ isEditActi
         getCurrentTheme: state.getCurrentTheme,
         addListToBoard: state.addListToBoard,
     }));
-    function handleAddList(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
+    function handleAddList(e?: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
         if (!listName) return;
-        e.stopPropagation();
+        if (e) e.stopPropagation();
         addListToBoard(listName);
         setListName("");
     }
@@ -50,6 +50,11 @@ export const ListCreateElement = forwardRef<HTMLDivElement, Props>(({ isEditActi
                         placeholder="Enter the name of the list..."
                         value={listName}
                         onChange={(e) => setListName(e.target.value)}
+                        onKeyDown={(e) => {
+                            if (e.key === "Enter") {
+                                handleAddList();
+                            }
+                        }}
                     />
                     <Flex align="center" py="5px">
                         <Button size="sm" colorScheme={getCurrentTheme()} onClick={(e) => handleAddList(e)} mr="0.5em">

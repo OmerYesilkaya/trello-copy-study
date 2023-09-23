@@ -17,6 +17,7 @@ type Props = {
 export function CardElement({ card, provided, isDragging }: Props) {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const restOfStyles = getStyle({ draggableStyle: provided.draggableProps.style, isDragging });
+
     return (
         <>
             <div
