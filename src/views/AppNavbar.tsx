@@ -1,4 +1,5 @@
 import { useHistory } from "react-router";
+import shallow from "zustand/shallow";
 
 import { Flex, Text } from "@chakra-ui/layout";
 import { Button } from "@chakra-ui/button";
@@ -9,7 +10,7 @@ import { FaBell, FaHome, FaTrello } from "react-icons/fa";
 import trelloLogo from "assets/trello_logo.gif";
 import { users } from "constants/users";
 import { useBoardStore } from "store";
-import { UserAvatar, MotionImage } from "components";
+import { UserAvatar, MotionImage, MotionFlex } from "components";
 
 type Props = {
     onClick?: VoidFunction;
@@ -17,7 +18,7 @@ type Props = {
 };
 
 export function NavbarButton({ onClick, children }: Props) {
-    const { getCurrentTheme } = useBoardStore((state) => ({ getCurrentTheme: state.getCurrentTheme }));
+    const { getCurrentTheme } = useBoardStore((state) => ({ getCurrentTheme: state.getCurrentTheme }), shallow);
 
     return (
         <Button colorScheme={getCurrentTheme()} h="30px" minW="30px" p="0px" mr="5px" onClick={onClick}>
@@ -28,7 +29,7 @@ export function NavbarButton({ onClick, children }: Props) {
 
 export function AppNavbar() {
     const history = useHistory();
-    const { getCurrentTheme } = useBoardStore((state) => ({ getCurrentTheme: state.getCurrentTheme }));
+    const { getCurrentTheme } = useBoardStore((state) => ({ getCurrentTheme: state.getCurrentTheme }), shallow);
 
     return (
         <Flex
@@ -58,15 +59,21 @@ export function AppNavbar() {
                 </NavbarButton>
             </Flex>
             {/* 40 is about the same with half of the trello logo width, it is hardcoded, maybe get image width with ref in the future */}
-            <Flex
+            <MotionFlex
                 cursor="pointer"
                 position="absolute"
                 left={window.innerWidth / 2 - 40}
                 alignItems="center"
+                opacity={0.6}
+                whileHover={{ opacity: 1 }}
                 onClick={() => history.push("/")}
+                color="white"
             >
-                <MotionImage opacity={0.6} whileHover={{ opacity: 1 }} h="15px" src={trelloLogo} />
-            </Flex>
+                <FaTrello />
+                <Text ml="6px" fontSize="18px" fontWeight="bold">
+                    TrelloClone
+                </Text>
+            </MotionFlex>
             <Flex align="center">
                 <NavbarButton>
                     <Text fontSize="14px" px="10px">

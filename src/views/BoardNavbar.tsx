@@ -1,4 +1,5 @@
 import { useState } from "react";
+import shallow from "zustand/shallow";
 import { TiStar, TiStarOutline } from "react-icons/ti";
 import { FaSearch } from "react-icons/fa";
 import { Button, IconButton } from "@chakra-ui/button";
@@ -20,12 +21,26 @@ export function BoardNavbar({ data }: BoardNavbarParams) {
             getCurrentTheme: state.getCurrentTheme,
             currentSearchFilter: state.currentSearchFilter,
             setCurrentSearchFilter: state.setCurrentSearchFilter,
-        })
+        }),
+        shallow
     );
     const [searchValue, setSearchValue] = useState("");
 
     function handleSearch() {
         setCurrentSearchFilter(searchValue);
+    }
+
+    function handleSearchKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
+        switch (e.key) {
+            case "Enter":
+                handleSearch();
+                break;
+            case "Escape":
+                setSearchValue("");
+                break;
+            default:
+                break;
+        }
     }
 
     return (
@@ -68,6 +83,7 @@ export function BoardNavbar({ data }: BoardNavbarParams) {
                         placeholder="Search in board..."
                         bg={`${getCurrentTheme()}.700`}
                         onChange={(e) => setSearchValue(e.target.value)}
+                        onKeyDown={(e) => handleSearchKeyDown(e)}
                     />
                     <InputRightElement children={<FaSearch color="white" />} />
                 </InputGroup>

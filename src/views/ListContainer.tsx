@@ -33,6 +33,7 @@ export function ListContainer({ board }: Props) {
 
     const innerBoardHeight = window.innerHeight - 90;
     //  Note(omer): 90 here is to disable vertical scrolling on outer container, both of the navbards are 45px because they look good that way. h=100% doesnt seem to work
+    console.count("render");
 
     function handleDragEnd(result: DropResult) {
         const currentBoard = getActiveBoardData();

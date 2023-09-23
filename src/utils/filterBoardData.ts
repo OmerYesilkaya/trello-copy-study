@@ -1,27 +1,42 @@
-import { Board, Card, ListMap } from "models";
+import { Board, Card } from "models";
 
 export function filterBoardData(key: string, board: Board): Board {
-    if (!key) return board;
+    if (!key || !board) return board;
+
+    const lowerKey = key.toLowerCase();
     const copy = { ...board };
 
-    const filteredCards = Object.values(copy.lists).reduce((acc, cur) => {
-        const filteredInTitles = cur.cards.filter((x) => x.name.toLowerCase().includes(key.toLowerCase()));
-        const filteredInTags = cur.cards.filter(
-            (x) => x.tags.filter((x) => x.toLowerCase().includes(key.toLowerCase())).length > 0
-        );
-        const filteredInComments = cur.cards.filter(
-            (x) => x.comments.filter((x) => x.text.toLowerCase().includes(key.toLowerCase())).length > 0
-        );
+    // Use Set to store unique filtered cards.
+    const filteredCardsSet: Set<Card> = new Set();
 
-        return [...acc, ...filteredInTitles, ...filteredInTags, ...filteredInComments];
-    }, [] as Card[]);
+    // Loop over all cards once and add to the set if they match the key.
+    for (const list of Object.values(board.lists)) {
+        for (const card of list.cards) {
+            if (card.name.toLowerCase().includes(lowerKey)) {
+                filteredCardsSet.add(card);
+                continue; // Skip to next card if name matches.
+            }
 
-    copy.lists = filteredCards.reduce((acc, cur: Card) => {
-        const newCards = board.lists[cur.parentListId].cards.filter((x) => x.id === cur.id);
-        return { ...acc, [cur.parentListId]: { ...board.lists[cur.parentListId], cards: newCards } } as ListMap;
-    }, {} as ListMap);
+            if (card.tags.some((tag) => tag.toLowerCase().includes(lowerKey))) {
+                filteredCardsSet.add(card);
+                continue; // Skip to next card if any tag matches.
+            }
+
+            if (card.comments.some((comment) => comment.text.toLowerCase().includes(lowerKey))) {
+                filteredCardsSet.add(card);
+            }
+        }
+    }
+
+    // Create new lists object with filtered cards.
+    copy.lists = {};
+    for (const card of filteredCardsSet) {
+        const parentListId = card.parentListId;
+        if (!copy.lists[parentListId]) {
+            copy.lists[parentListId] = { ...board.lists[parentListId], cards: [] };
+        }
+        copy.lists[parentListId].cards.push(card);
+    }
 
     return copy;
 }
-
-// Note(omer): I dont know how costly this is, maybe do something better for search in the future..
