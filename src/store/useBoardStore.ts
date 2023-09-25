@@ -44,7 +44,10 @@ export const useBoardStore = create<BoardStoreProps>(
             activeBoardId: null,
             boards: [],
             currentSearchFilter: "",
-            setActiveBoardId: (id) => set({ activeBoardId: id }),
+            setActiveBoardId: (id) => {
+                // NOTE(omer): Reset filtering upon board change
+                set({ activeBoardId: id, currentSearchFilter: "" });
+            },
             getActiveBoardData: () => {
                 const boards = get().boards;
                 const activeBoardId = get().activeBoardId;
