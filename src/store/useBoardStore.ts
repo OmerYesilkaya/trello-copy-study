@@ -154,8 +154,6 @@ export const useBoardStore = create<BoardStoreProps>(
             getCardFromId: (listId, cardId) => {
                 const targetList = get().getListFromId(listId);
                 if (!targetList) return null;
-                console.log("cards in list", targetList);
-                console.log("cardid", cardId);
                 const card = targetList.cards.find((x) => x.id === cardId) ?? null;
                 return card;
             },
